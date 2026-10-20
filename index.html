@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20/10 — Gửi Cạ Cứng</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: {
+                            50: '#FAF9f6',
+                            100: '#F5F3EF',
+                            200: '#EBE7DF',
+                        },
+                        terracotta: {
+                            500: '#E06D53',
+                            600: '#C8543B',
+                            50: '#FDF6F4',
+                        },
+                        warmgray: {
+                            100: '#ECEAE4',
+                            500: '#8C857B',
+                            800: '#3D3A36',
+                            900: '#23211E',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        display: ['"Space Grotesk"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF9F6;
+            color: #23211E;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Smooth expandable transition */
+        .card-body {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .card-body.open {
+            grid-template-rows: 1fr;
+        }
+
+        .card-content {
+            overflow: hidden;
+        }
+
+        .custom-border {
+            border: 1px solid rgba(61, 58, 54, 0.08);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-terracotta-500 selection:text-white">
+
+    <!-- Subtle Grain Overlay -->
+    <div class="fixed inset-0 pointer-events-none opacity-[0.025] z-50 bg-[radial-gradient(#23211E_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+    <!-- Main Container -->
+    <main class="max-w-2xl mx-auto w-full px-6 py-12 md:py-20 flex-1 flex flex-col justify-center">
+
+        <!-- Top Header Minimalist Badge -->
+        <div class="mb-8 flex items-center justify-between">
+            <span class="font-display font-bold text-xs tracking-wider uppercase text-warmgray-500 bg-cream-100 border border-warmgray-200 px-3 py-1 rounded-full">
+                20.10 Edition
+            </span>
+            <!-- Music Control Button -->
+            <button id="music-toggle-btn" onclick="toggleMusic()" class="flex items-center space-x-1.5 text-xs text-warmgray-500 hover:text-warmgray-900 transition-colors bg-cream-100 border border-warmgray-200 px-3 py-1 rounded-full">
+                <i data-lucide="music" class="w-3.5 h-3.5"></i>
+                <span id="music-text">Bật nhạc</span>
+            </button>
+        </div>
+
+        <!-- Main Title -->
+        <header class="mb-10">
+            <h1 class="font-display text-4xl md:text-5xl font-bold tracking-tight text-warmgray-900 leading-tight mb-3">
+                Gửi Tét, <br>
+                <span class="text-terracotta-500 italic font-normal">20/10 vui vẻ nhen.</span>
+            </h1>
+            <p class="text-warmgray-500 text-sm md:text-base font-normal max-w-md">
+                Không sến sẩm, không hoa mỹ. Mở ra xem đôi lời nhắn ngắn gọn bên dưới nè.
+            </p>
+        </header>
+
+        <!-- Interactive Letter Card -->
+        <section class="bg-white rounded-2xl custom-border shadow-sm p-6 md:p-8 mb-8 transition-all duration-300 hover:shadow-md">
+            <div class="flex items-center justify-between cursor-pointer group" onclick="toggleCard()">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-terracotta-50 flex items-center justify-center text-terracotta-500 group-hover:scale-105 transition-transform">
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-warmgray-900 text-base">Thư gửi Tét</h2>
+                        <p class="text-xs text-warmgray-500">Chạm để mở / đóng lời chúc</p>
+                    </div>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-cream-100 flex items-center justify-center text-warmgray-800 transition-transform duration-300" id="chevron-icon">
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                </div>
+            </div>
+
+            <!-- Expandable Message -->
+            <div class="card-body mt-2" id="card-body">
+                <div class="card-content pt-6 border-t border-warmgray-100 text-warmgray-800 space-y-4 text-sm md:text-base leading-relaxed">
+                    <p>
+                        Gửi Tét,
+                    </p>
+                    <p>
+                        Chúc mày 20/10 thật vui vẻ, luôn xinh đẹp, yêu đời và gặp nhiều may mắn.
+                    </p>
+                    <p>
+                        Mong mọi dự định của mày đều suôn sẻ, làm gì cũng trót chảy, tiền tiêu không phải nghĩ và lúc nào cũng tràn đầy năng lượng tích cực.
+                    </p>
+                    <div class="bg-cream-50 p-4 rounded-xl custom-border my-2 text-xs md:text-sm text-warmgray-800">
+                        <p class="font-semibold text-terracotta-600 mb-1">🎯 Mục tiêu ngắn hạn:</p>
+                        <ul class="list-disc list-inside space-y-1 text-warmgray-500">
+                            <li>Xinh đẹp tự tin (như mọi khi).</li>
+                            <li>Ví luôn đầy, ăn hoài không béo.</li>
+                            <li>Sớm bao tao một chấu cafe/trà sữa!</li>
+                        </ul>
+                    </div>
+                    <p class="pt-2 font-medium text-warmgray-900">
+                        20/10 vui vẻ nhé, Tét! ☕✨
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Minimal Interactive Button -->
+        <div class="text-center">
+            <button onclick="launchMinimalConfetti()" class="w-full bg-warmgray-900 hover:bg-warmgray-800 text-cream-50 font-medium py-3.5 px-6 rounded-xl shadow-sm transition-all transform active:scale-[0.98] flex items-center justify-center space-x-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-terracotta-500"></i>
+                <span>Bắn pháo hoa ăn mừng 20/10</span>
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Hidden Audio Element -->
+    <audio id="bg-music" loop preload="none">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 border-t border-warmgray-200/60 text-xs text-warmgray-500">
+        <p>Designed for Tét • 20/10 Minimalist Note</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        let isPlaying = false;
+        const bgMusic = document.getElementById('bg-music');
+        const musicText = document.getElementById('music-text');
+
+        function toggleMusic() {
+            if (isPlaying) {
+                bgMusic.pause();
+                musicText.innerText = 'Bật nhạc';
+            } else {
+                bgMusic.play().then(() => {
+                    musicText.innerText = 'Tắt nhạc';
+                }).catch(err => {
+                    console.log("Audio playback error:", err);
+                });
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Toggle Card Visibility
+        function toggleCard() {
+            const cardBody = document.getElementById('card-body');
+            const chevron = document.getElementById('chevron-icon');
+            
+            const isOpen = cardBody.classList.contains('open');
+            if (isOpen) {
+                cardBody.classList.remove('open');
+                chevron.style.transform = 'rotate(0deg)';
+            } else {
+                cardBody.classList.add('open');
+                chevron.style.transform = 'rotate(180deg)';
+                
+                // Fire subtle sparkles when card opens first time
+                launchMinimalConfetti();
+            }
+        }
+
+        // Elegant & Minimal Pastel Confetti
+        function launchMinimalConfetti() {
+            confetti({
+                particleCount: 35,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: ['#E06D53', '#8C857B', '#EBE7DF', '#3D3A36'],
+                shapes: ['circle', 'square'],
+                scalar: 0.8,
+                drift: 0,
+                ticks: 200,
+                gravity: 0.8,
+            });
+        }
+    </script>
+</body>
+</html>
